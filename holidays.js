@@ -1,22 +1,11 @@
-const express = require("express");
-const app = express();
-const cors = require("cors");
-const holidays = require("poland-public-holidays");
-const port = 3000;
+const holidays = require('poland-public-holidays');
 
-app.use(cors());
+const today = new Date();
+const result = holidays.IsHoliday(today);
 
-app.get("/isHolidayToday", (req, res) => {
-    const today = new Date();
-    const result = holidays.isHoliday(today);
+const response = {
+    isHoliday: result ? true : false,
+    name: result ? result.Name : ''
+};
 
-    if (result) {
-        res.json({isHoliday: true, name: result.name});
-    } else {
-        res.json({IsHoliday: false});
-    }
-});
-
-app.listen(port, () => {
-    console.log(`HolidayAPI running at http://localhost:${port}`);
-});
+console.log(JSON.stringify(response));
