@@ -1,11 +1,15 @@
+const express = require('express');
 const holidays = require('poland-public-holidays');
+const app = express();
 
-const today = new Date();
-const result = holidays.IsHoliday(today);
+app.get('/is-holiday', (req, res) => {
+    const today = new Date();
+    const result = holidays.IsHoliday(today);
 
-const response = {
-    isHoliday: result ? true : false,
-    name: result ? result.Name : ''
-};
+    res.json({
+        isHoliday: !!result,
+        name: result ? result.Name : ''
+    });
+});
 
-console.log(JSON.stringify(response));
+app.listen(3000, () => console.log('Server running on port 3000'));
